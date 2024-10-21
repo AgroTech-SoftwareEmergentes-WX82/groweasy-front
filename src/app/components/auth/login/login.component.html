@@ -1,0 +1,45 @@
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    
+    <!-- Formulario de inicio de sesión con email y contraseña -->
+    <form (ngSubmit)="logIn()">
+      <div class="form-group">
+        <label for="email">Correo electrónico:</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="credentials.email" 
+          name="email" 
+          class="form-control" 
+          placeholder="Introduce tu correo"
+          required
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="credentials.password" 
+          name="password" 
+          class="form-control" 
+          placeholder="Introduce tu contraseña"
+          required
+        />
+      </div>
+  
+      <!-- Mostrar un mensaje de error si la autenticación falla -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+  
+      <!-- Botón para enviar el formulario -->
+      <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    </form>
+  
+    <!-- Link para registro de nuevos usuarios -->
+    <p class="register-link">
+      ¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a>
+    </p>
+  </div>
