@@ -14,55 +14,30 @@ export interface Credential {
 })
 export class AuthService {
   private apiUrl = 'https://your-backend-api.com'; // Cambia esta URL por la de tu backend
-  private tokenKey = 'authToken'; // Clave para almacenar el token en localStorage
+  private token: string | null = null;// Clave para almacenar el token en localStorage
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // Método para registrar al usuario
-  signUp(credential: Credential): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signup`, credential).pipe(
-      tap((response: any) => this.storeToken(response.token)),
-      catchError(this.handleError)
-    );
-  }
-
   // Método para iniciar sesión
-  logIn(credential: Credential): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credential).pipe(
-      tap((response: any) => this.storeToken(response.token)),
-      catchError(this.handleError)
+  login(credentials: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/authenticate`, credentials).pipe(
+      tap((response: any) => {
+        // Aquí guardas el token en el localStorage o en una variable
+        this.token = response.token; // Asumiendo que el token viene en la respuesta
+        if (this.token) {
+          localStorage.setItem('token', this.token);
+        }
+      })
     );
   }
 
-  // Método para cerrar sesión
-  logOut(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/login']); // Redirige al login después de cerrar sesión
+  logout() {
+    this.token = null;
+    localStorage.removeItem('token');
   }
 
-  // Método para verificar si el usuario está autenticado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.tokenKey); // Comprueba si hay un token
+    return this.token !== null;
   }
 
-  // Método para obtener el token actual
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  // Método para almacenar el token en localStorage
-  private storeToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-  }
-
-  // Método para manejar errores
-  private handleError(error: any): Observable<never> {
-    let errorMessage = 'Ocurrió un error desconocido';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error del servidor: ${error.status} ${error.message}`;
-    }
-    return throwError(() => new Error(errorMessage));
-  }
 }

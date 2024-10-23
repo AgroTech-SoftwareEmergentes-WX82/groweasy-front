@@ -1,0 +1,26 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+      <a href="/" class="brand-logo">MyApp</a>
+    </div>
+    
+    <ul class="navbar-links">
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/about">About</a></li>
+      <li><a routerLink="/contact">Contact</a></li>
+    </ul>
+  
+    <div class="navbar-user">
+      <!-- Mostrar el nombre del usuario si está autenticado -->
+      <ng-container *ngIf="isLoggedIn; else loginTemplate">
+        <span class="user-name">Hello, {{ userName }}!</span>
+        <button (click)="navigateToProfile()">Profile</button>
+        <button (click)="logout()">Logout</button>
+      </ng-container>
+  
+      <!-- Si no está autenticado, mostrar un botón para iniciar sesión -->
+      <ng-template #loginTemplate>
+        <button routerLink="/login">Login</button>
+      </ng-template>
+    </div>
+  </nav>
+  
