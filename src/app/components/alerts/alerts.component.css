@@ -1,0 +1,24 @@
+.alerts-container {
+    background-color: #f8d7da;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3 {
+    color: #721c24;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #f5c6cb;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #721c24;
+  }
+  

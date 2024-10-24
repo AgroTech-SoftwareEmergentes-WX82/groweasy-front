@@ -1,0 +1,18 @@
+.temperature-dashboard {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .temperature-display {
+    font-size: 2em;
+    color: #007bff;
+  }
+  
+  h2 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+  }
+  
