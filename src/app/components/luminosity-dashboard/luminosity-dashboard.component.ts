@@ -1,27 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { CommonModule, DatePipe } from '@angular/common';
+import { LuminosityService } from '../../core/services/luminosity.service'; // Importar el servicio de luminosidad
 
 @Component({
   selector: 'app-luminosity-dashboard',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './luminosity-dashboard.component.html',
   styleUrls: ['./luminosity-dashboard.component.css'],
+  standalone: true, // Hacer el componente standalone
+  imports: [CommonModule, DatePipe], // Importar CommonModule y DatePipe
 })
 export class LuminosityDashboardComponent implements OnInit {
-  luminosity: number = 0;
+  luminosityData: { luminosity: number; timestamp: string } | null = null; // Almacena los datos
 
-  constructor(private http: HttpClient) {}
+  constructor(private luminosityService: LuminosityService) {} // Inyectar el servicio
 
   ngOnInit(): void {
-    this.getLuminosity();
+    this.getLuminosityData();
   }
 
-  getLuminosity(): void {
-    this.http.get('https://api.example.com/luminosity')
-      .subscribe((data: any) => {
-        this.luminosity = data.luminosity;
-      });
+  // Método para obtener los datos de humedad del backend
+  getLuminosityData(): void {
+    this.luminosityService.getLuminosity().subscribe(
+      (data) => {
+        this.luminosityData = data;
+      },
+      (error) => {
+        console.error('Error fetching luminosity data:', error);
+      }
+    );
   }
 }

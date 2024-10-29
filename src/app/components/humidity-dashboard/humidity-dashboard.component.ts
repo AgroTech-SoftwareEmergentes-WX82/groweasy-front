@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { HumidityService } from '../../core/services/humidity.service';
+import { Observable } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
+import { HumidityService } from '../../core/services/humidity.service'; // Asegúrate de importar tu servicio
 
-import { RouterModule } from '@angular/router';
- 
 @Component({
-  selector: 'app-humidity',
+  selector: 'app-humidity-dashboard',
   templateUrl: './humidity-dashboard.component.html',
   styleUrls: ['./humidity-dashboard.component.css'],
-  standalone: true,
-  imports: [DatePipe, CommonModule, RouterModule], // Importamos CommonModule para utilizar directivas como *ngIf, *ngFor, etc.
-  providers: [HumidityService], // Proveedor para asegurar que el servicio esté disponible
+  standalone: true, // Hacer el componente standalone
+  imports: [CommonModule, DatePipe], // Importar CommonModule y DatePipe
 })
 export class HumidityDashboardComponent implements OnInit {
-  humidityData: { humidity: number; timestamp: string } | undefined;
-  constructor(private humidityService: HumidityService) {}
+  humidityData: { humidity: number; timestamp: string } | null = null;
+
+  constructor(private humidityService: HumidityService) {} // Inyectar el servicio
 
   ngOnInit(): void {
-    // Llamar al servicio de humedad con autenticación
+    this.getHumidityData();
+  }
+
+  // Método para obtener los datos de humedad del backend
+  getHumidityData(): void {
     this.humidityService.getHumidity().subscribe(
       (data) => {
-        this.humidityData = data; // Guardar los datos de la respuesta
+        this.humidityData = data;
       },
       (error) => {
-        console.error('Error fetching humidity data', error); // Manejo de errores
+        console.error('Error fetching humidity data:', error);
       }
     );
   }

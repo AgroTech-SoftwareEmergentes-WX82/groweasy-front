@@ -1,1 +1,56 @@
-<p>devices works!</p>
+<app-navbar></app-navbar>
+<div class="devices-container">
+  <h2>Dispositivos</h2>
+  
+  <button (click)="openModal()">Agregar Dispositivo</button>
+  
+  <!-- Modal de agregar dispositivo -->
+  <div *ngIf="showModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h3>Agregar Dispositivo</h3>
+
+      <form [formGroup]="deviceForm" (ngSubmit)="submit()">
+        <div>
+          <label for="deviceName">Nombre del Dispositivo:</label>
+          <input id="deviceName" formControlName="deviceName" type="text" />
+        </div>
+        
+        <div>
+          <label for="deviceType">Tipo de Dispositivo:</label>
+          <mat-select formControlName="deviceType">
+            <mat-option value="humedad">Humedad</mat-option>
+            <mat-option value="luminosidad">Luminosidad</mat-option>
+            <mat-option value="temperatura">Temperatura</mat-option>
+          </mat-select>
+        </div>
+        
+        <div>
+          <label for="topicId">Topic ID:</label>
+          <input id="topicId" formControlName="topicId" type="text" />
+        </div>
+        
+        <button type="button" (click)="closeModal()">Cancelar</button>
+        <button type="submit">Agregar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mostrar la lista de dispositivos -->
+  <div class="devices-list">
+    <ng-container *ngIf="devices.length > 0; else noDevices">
+      <div *ngFor="let device of devices" class="device-card">
+        <p><strong>ID:</strong> {{ device.id }}</p>
+        <p><strong>Nombre:</strong> {{ device.deviceName }}</p>
+        <p><strong>Tipo:</strong> {{ device.deviceType }}</p>
+        <p><strong>Topic:</strong> {{ device.topicId }}</p>
+        <button (click)="confirmDelete(device.id)">Borrar</button>
+      </div>
+    </ng-container>
+
+    <!-- Mensaje cuando no hay dispositivos -->
+    <ng-template #noDevices>
+      <p>No hay ningún dispositivo.</p>
+    </ng-template>
+  </div>
+</div>

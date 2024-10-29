@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { AuthService, Credential } from '../../../core/services/auth.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  imports: [ReactiveFormsModule, HttpClientModule, CommonModule] // Módulos necesarios
+  styleUrls: ['./login.component.css']
 })
 export class LogInComponent {
   loginForm: FormGroup;
@@ -27,22 +26,16 @@ export class LogInComponent {
     });
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: (response) => {
-          // Redirigir después del login exitoso
-          this.router.navigate(['/dashboard']);
-        },
-        error: () => {
-          this.errorMessage = 'Credenciales inválidas. Intenta de nuevo.';
-        }
+        next: () => this.router.navigate(['/home']),
+        error: () => (this.errorMessage = 'Error al iniciar sesión. Por favor, intenta nuevamente.')
       });
     }
   }
 
-   // Navegar al componente de registro
-   navigateToRegister(): void {
-    this.router.navigate(['/register']); // Asegúrate de tener la ruta /register configurada
+  navigateToRegister() {
+    this.router.navigate(['/register']);
   }
 }

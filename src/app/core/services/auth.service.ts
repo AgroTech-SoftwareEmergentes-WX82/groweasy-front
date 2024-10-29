@@ -22,12 +22,15 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/auth/authenticate`, credentials).pipe(
       tap((response: any) => {
         localStorage.setItem(this.tokenKey, response.token); // Guardar el token
+        console.log(this.tokenKey);
       }),
       catchError((error) => {
         console.error('Error during login', error);
         return throwError(error);
       })
     );
+
+
   }
 
   // Método de registro

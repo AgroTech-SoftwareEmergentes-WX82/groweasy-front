@@ -9,11 +9,11 @@ import { DevicesComponent } from './components/devices/devices.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirige a la ruta de login por defecto
+  { path: 'home', component: HomeComponent }, // Ruta para el componente Home
+  { path: 'devices', component: DevicesComponent },
+  { path: 'chatbot', component: ChatbotComponent },
   { path: 'login', component: LogInComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'chatbot', component: ChatbotComponent },
-  { path: 'devices', component: DevicesComponent },
 ];
 
 @NgModule({

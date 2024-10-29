@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common'; // Necesario en standalone components
+import { TemperatureService } from '../../core/services/temperature.service'; // Importar el servicio de luminosidad
 
 @Component({
   selector: 'app-temperature-dashboard',
@@ -10,18 +11,22 @@ import { CommonModule } from '@angular/common'; // Necesario en standalone compo
   styleUrls: ['./temperature-dashboard.component.css'],
 })
 export class TemperatureDashboardComponent implements OnInit {
-  temperature: number = 0;
+  temperatureData: { temperature: number; timestamp: string } | null = null; // Almacena los datos
 
-  constructor(private http: HttpClient) {}
+  constructor(private temperatureService: TemperatureService) {} // Inyectar el servicio
 
   ngOnInit(): void {
-    this.getTemperature();
+    this.getTemperatureData();
   }
 
-  getTemperature(): void {
-    this.http.get('https://api.example.com/temperature')
-      .subscribe((data: any) => {
-        this.temperature = data.temperature;
-      });
+  getTemperatureData(): void {
+    this.temperatureService.getTemperature().subscribe(
+      (data) => {
+        this.temperatureData = data;
+      },
+      (error) => {
+        console.error('Error fetching temperature data:', error);
+      }
+    );
   }
 }

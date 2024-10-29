@@ -6,14 +6,14 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class HumidityService {
-  private apiUrl = 'https://671abe9eacf9aa94f6ab8dc6.mockapi.io/humidity/2'; // Cambia por tu API real
+export class LuminosityService {
+  private apiUrl = 'https://671abe9eacf9aa94f6ab8dc6.mockapi.io/luminosity/2'; // Cambia por tu API real
   private tokenKey = 'authToken'; // Clave donde se guarda el token
 
   constructor(private http: HttpClient) {}
 
-  // Método que retorna la humedad y el timestamp desde el backend
-  getHumidity(): Observable<{ humidity: number; timestamp: string }> {
+  // Método que retorna la luminosidad y el timestamp desde el backend
+  getLuminosity(): Observable<{ luminosity: number; timestamp: string }> {
     const token = this.getToken(); // Obtener el token desde el localStorage
 
     // Si no hay token, lanzar un error o manejarlo de alguna forma
@@ -28,10 +28,10 @@ export class HumidityService {
 
     // Realizar la petición con el token en las cabeceras
     return this.http
-      .get<{ humidity: number; timestamp: string }>(this.apiUrl, { headers }) // Usa la URL definida en el servicio
+      .get<{ luminosity: number; timestamp: string }>(this.apiUrl, { headers })
       .pipe(
         catchError((error) => {
-          console.error('Error fetching humidity data', error); // Manejo de errores
+          console.error('Error fetching luminosity data', error); // Manejo de errores
           return throwError(error); // Manejo de errores para el subscribe
         })
       );

@@ -1,7 +1,29 @@
 <div class="temperature-dashboard">
-    <h2>Temperature</h2>
-    <div class="temperature-display">
-      <p>{{ temperature }}°C</p>
+  <h2>Temperatura Actual</h2>
+
+  <!-- Contenedor del termómetro -->
+  <div class="thermometer-container">
+    <div class="thermometer">
+      <!-- Barra de temperatura -->
+      <div
+        class="thermometer-fill"
+        [style.height]="temperatureData?.temperature + '%'">
+      </div>
+    </div>
+
+    <!-- Texto de la temperatura actual -->
+    <div class="temperature-text">
+      {{ temperatureData?.temperature }}°C
     </div>
   </div>
-  
+
+  <!-- Mostrar la fecha y hora de la última actualización -->
+  <div *ngIf="temperatureData">
+    <p>Última actualización: {{ temperatureData.timestamp | date: 'short' }}</p>
+  </div>
+
+  <!-- Mensaje de carga si no hay datos -->
+  <div *ngIf="!temperatureData">
+    <p>Cargando datos de temperatura...</p>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string | null = null;
+  successMessage: string | null = null; // Añadir mensaje de éxito
 
   constructor(
     private fb: FormBuilder,
@@ -32,10 +33,13 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: (response) => {
-          this.router.navigate(['/login']); // Redirigir al login después del registro
+          this.successMessage = 'Registro exitoso. Redirigiendo al login...'; // Mensaje de éxito
+          setTimeout(() => {
+            this.router.navigate(['/login']); // Redirigir al login después de un pequeño retraso
+          }, 2000); // Espera de 2 segundos antes de redirigir
         },
         error: () => {
-          this.errorMessage = 'Error en el registro. Intenta de nuevo.';
+          this.errorMessage = 'Error en el registro. Intenta de nuevo.'; // Mensaje de error en caso de fallo
         }
       });
     }

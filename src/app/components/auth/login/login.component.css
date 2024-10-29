@@ -1,84 +1,83 @@
-/* Estilo general del contenedor de inicio de sesión */
-.login-container {
-    width: 100%;
-    max-width: 400px; /* Ancho máximo del formulario */
-    margin: 0 auto; /* Centrar el contenedor horizontalmente */
-    padding: 20px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Bordes del contenedor */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
-    background-color: #ffffff; /* Fondo blanco */
-  }
-  
-  /* Estilos para el título */
-  h2 {
-    text-align: center; /* Centrar el texto */
-    color: #333; /* Color del texto */
-    margin-bottom: 20px; /* Margen inferior */
-  }
-  
-  /* Estilos para el grupo de formulario */
-  .form-group {
-    margin-bottom: 15px; /* Espaciado entre campos */
-  }
-  
-  /* Estilos para etiquetas */
-  label {
-    display: block; /* Hacer que la etiqueta ocupe todo el ancho */
-    margin-bottom: 5px; /* Espaciado inferior */
-    font-weight: bold; /* Negrita */
-    color: #555; /* Color de la etiqueta */
-  }
-  
-  /* Estilos para los campos de entrada */
-  input[type="email"],
-  input[type="password"] {
-    width: 100%; /* Ancho completo */
-    padding: 10px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde gris */
-    border-radius: 4px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluir padding y borde en el ancho total */
-  }
-  
-  /* Estilo para el botón */
-  .btn {
-    width: 100%; /* Ancho completo */
-    padding: 10px; /* Espaciado interno */
-    background-color: #007bff; /* Color de fondo azul */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    font-size: 16px; /* Tamaño de fuente */
-  }
-  
-  /* Cambiar el color del botón al pasar el mouse */
-  .btn:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
-  }
-  
-  /* Estilo para el mensaje de error */
-  .error-message {
-    color: red; /* Color del texto de error */
-    font-size: 14px; /* Tamaño de fuente más pequeño */
-    margin-top: 10px; /* Espaciado superior */
-    text-align: center; /* Centrar el texto */
-  }
-  
-  /* Estilo para el enlace de registro */
-  .register-link {
-    text-align: center; /* Centrar el texto */
-    margin-top: 20px; /* Espaciado superior */
-  }
-  
-  /* Estilo para el enlace de registro */
-  .register-link a {
-    color: #007bff; /* Color del enlace */
-    text-decoration: none; /* Sin subrayado */
-  }
-  
-  /* Cambiar el color del enlace al pasar el mouse */
-  .register-link a:hover {
-    text-decoration: underline; /* Subrayar al pasar el mouse */
-  }
-  
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:disabled {
+  background-color: #ccc;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.secondary-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #007bff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.secondary-button:hover {
+  color: #0056b3;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+small {
+  color: red;
+  font-size: 0.9em;
+}
