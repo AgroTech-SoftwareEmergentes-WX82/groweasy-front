@@ -41,9 +41,9 @@
     <ng-container *ngIf="devices.length > 0; else noDevices">
       <div *ngFor="let device of devices" class="device-card">
         <p><strong>ID:</strong> {{ device.id }}</p>
-        <p><strong>Nombre:</strong> {{ device.deviceName }}</p>
-        <p><strong>Tipo:</strong> {{ device.deviceType }}</p>
-        <p><strong>Topic:</strong> {{ device.topicId }}</p>
+        <p><strong>Nombre:</strong> {{ device.name }}</p>
+        <p><strong>Tipo:</strong> {{ device.typeDevice }}</p>
+        <p><strong>Topic:</strong> {{ device.topic }}</p>
         <button (click)="confirmDelete(device.id)">Borrar</button>
       </div>
     </ng-container>

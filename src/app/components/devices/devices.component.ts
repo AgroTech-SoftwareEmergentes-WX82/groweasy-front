@@ -46,7 +46,12 @@ export class DevicesComponent implements OnInit {
   // Método para enviar el formulario
   submit() {
     if (this.deviceForm.valid) {
-      const deviceData = this.deviceForm.value;
+      // Mapeo de los datos del formulario a los nombres que espera el backend
+      const deviceData = {
+        name: this.deviceForm.value.deviceName,
+        typeDevice: this.deviceForm.value.deviceType,
+        topic: this.deviceForm.value.topicId
+      };
 
       this.devicesService.addDevice(deviceData).subscribe(
         (response) => {
@@ -75,6 +80,7 @@ export class DevicesComponent implements OnInit {
 
   // Método para confirmar la eliminación de un dispositivo
   confirmDelete(deviceId: number) {
+    console.log('Intentando eliminar el dispositivo con ID:', deviceId); // Verifica el ID
     if (confirm("¿Estás seguro de que deseas eliminar este dispositivo?")) {
       this.deleteDevice(deviceId);
     }
