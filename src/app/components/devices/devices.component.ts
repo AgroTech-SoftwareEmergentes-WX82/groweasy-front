@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { DevicesService } from '../../core/services/devices.service';
+import { ValuesService } from '../../core/services/values.service'; // Importar ValuesService
 import { NavbarComponent } from "../Shared/navbar/navbar.component"; // Asegúrate de que la ruta sea correcta
 
 @Component({
@@ -20,7 +21,7 @@ export class DevicesComponent implements OnInit {
   showModal: boolean = false;
   devices: any[] = []; // Para almacenar la lista de dispositivos
 
-  constructor(private fb: FormBuilder, private devicesService: DevicesService) {
+  constructor(private fb: FormBuilder, private devicesService: DevicesService, private valuesService: ValuesService) { // Inyectar ValuesService
     this.deviceForm = this.fb.group({
       deviceName: ['', Validators.required],
       deviceType: ['', Validators.required],
@@ -71,9 +72,31 @@ export class DevicesComponent implements OnInit {
     this.devicesService.getDevices().subscribe(
       (response) => {
         this.devices = response; // Almacena la lista de dispositivos obtenida desde el backend
+
+        // Llama a getDeviceValues para cada dispositivo
+        this.devices.forEach(device => {
+          this.getDeviceValues(device.id); // Llama al método para obtener los valores del dispositivo
+        });
       },
       (error) => {
         console.error('Error al obtener los dispositivos', error);
+      }
+    );
+  }
+
+  // Método para obtener los valores de un dispositivo específico
+  getDeviceValues(deviceId: number) {
+    this.valuesService.getDeviceValues(deviceId).subscribe(
+      (values) => {
+        // Aquí puedes procesar los valores y asignarlos a tu dispositivo
+        // Por ejemplo, podrías agregar una propiedad a cada dispositivo:
+        const device = this.devices.find(d => d.id === deviceId);
+        if (device) {
+          device.values = values; // Asignar los valores obtenidos al dispositivo
+        }
+      },
+      (error) => {
+        console.error(`Error al obtener valores del dispositivo ${deviceId}`, error);
       }
     );
   }

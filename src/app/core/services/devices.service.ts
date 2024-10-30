@@ -28,6 +28,7 @@ export class DevicesService {
     );
   }
 
+  
   // Método para agregar un nuevo dispositivo
   addDevice(deviceData: any): Observable<any> {
     const headers = this.getHeaders();
@@ -57,4 +58,4 @@ export class DevicesService {
       Authorization: `Bearer ${token}`
     });
   }
-}
+} 

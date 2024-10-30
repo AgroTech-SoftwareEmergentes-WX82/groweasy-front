@@ -1,17 +1,27 @@
-<app-navbar></app-navbar>
+<app-navbar></app-navbar> 
 <div class="home-container">
   
- 
-  <div class="dashboard-container">
-    <app-temperature-dashboard></app-temperature-dashboard>
-    <app-humidity-dashboard></app-humidity-dashboard>
-    <app-luminosity-dashboard></app-luminosity-dashboard>
+  <div *ngIf="humidityDevices.length">
+    <h2>Dispositivos de Humedad</h2>
+    <div *ngFor="let device of humidityDevices">
+      <!-- Dashboard de Humedad -->
+      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+    </div>
   </div>
- 
-<!--
-  <div class="notifications-container">
-    <app-alerts></app-alerts>
+  
+  <div *ngIf="luminosityDevices.length">
+    <h2>Dispositivos de Luminosidad</h2>
+    <div *ngFor="let device of luminosityDevices">
+      <!-- Dashboard de Luminosidad -->
+      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+    </div>
   </div>
--->
-
+  
+  <div *ngIf="temperatureDevices.length">
+    <h2>Dispositivos de Temperatura</h2>
+    <div *ngFor="let device of temperatureDevices">
+      <!-- Dashboard de Temperatura -->
+      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+    </div>
+  </div>
 </div>
