@@ -14,11 +14,10 @@
       <label for="lastname">Apellido</label>
       <input id="lastname" formControlName="lastname" type="text" />
       <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched">
-        <small *ngIf="registerForm.get('lastname')?.hasError('required')">El nombre es requerido.</small>
+        <small *ngIf="registerForm.get('lastname')?.hasError('required')">El apellido es requerido.</small>
       </div>
     </div>
 
-  
     <div>
       <label for="email">Email</label>
       <input id="email" formControlName="email" type="email" />
@@ -40,7 +39,21 @@
     <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
 
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
   </form>
 
   <button (click)="navigateToLogin()">¿Ya tienes una cuenta? Inicia sesión</button>
+
+  <!-- Modal para ingresar el token de activación -->
+  <div class="modal" *ngIf="showTokenModal">
+    <div class="modal-content">
+      <h3>Ingresa el token de activación</h3>
+      <form [formGroup]="activationForm"> <!-- Asocia el FormGroup aquí -->
+        <input formControlName="activationToken" type="text" placeholder="Token de activación" />
+        <button type="button" (click)="validateToken()">Validar</button>
+        <button type="button" (click)="closeTokenModal()">Cerrar</button>
+        <div *ngIf="activationErrorMessage" class="error">{{ activationErrorMessage }}</div>
+      </form>
+    </div>
+  </div>
 </div>

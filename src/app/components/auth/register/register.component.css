@@ -1,3 +1,25 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('https://media.discordapp.net/attachments/1278210566904873044/1301309086658203709/portada_agrotech.jpg?ex=67240207&is=6722b087&hm=f24f0da63d1dfba2dab115be0661e0461298b12e1aed01542db3ab70ba8c1850&=&format=webp&width=841&height=473');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.form-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
 .register-container {
   width: 100%;
   max-width: 400px;

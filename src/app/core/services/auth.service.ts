@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -12,8 +12,8 @@ export interface Credential {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1'; // Cambia esto por la URL de tu backend
-  private tokenKey = 'authToken'; // Clave de almacenamiento para el token
+  private apiUrl = 'https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1';
+  private tokenKey = 'authToken';
 
   constructor(private http: HttpClient) {}
 
@@ -21,31 +21,50 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/authenticate`, credentials).pipe(
       tap((response: any) => {
-        localStorage.setItem(this.tokenKey, response.token); // Guardar el token
-        console.log(this.tokenKey);
+        localStorage.setItem(this.tokenKey, response.token);
       }),
       catchError((error) => {
         console.error('Error during login', error);
         return throwError(error);
       })
     );
-
-
   }
 
   // Método de registro
-  register(user: { name: string; email: string; password: string }): Observable<any> {
+  register(user: { firstname: string; lastname: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/register`, user).pipe(
       catchError((error) => {
+        if (error.status === 500 && error.error && error.error.businessErrorDescription) {
+          if (error.error.businessErrorDescription.includes("duplicate key")) {
+            return throwError("Este correo ya está registrado. Por favor, intenta con otro.");
+          }
+        }
         console.error('Error during registration', error);
-        return throwError(error);
+        return throwError(error.error.businessErrorDescription || 'Error interno, por favor contacta al administrador.');
       })
     );
   }
 
+   // Método de activación de cuenta
+   activateAccount(token: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/auth/activate-account`, { params: { token } }).pipe(
+      tap((response) => {
+        console.log('Account activated successfully', response);
+      }),
+      catchError((error) => {
+        // Validar si el error es por un token incorrecto o no autorizado
+        if (error.status === 401 || error.status === 400) {
+          return throwError('El token de activación es incorrecto o ha expirado. Por favor, revisa el token e intenta de nuevo.');
+        }
+        console.error('Error during account activation', error);
+        return throwError('Error durante la activación de la cuenta. Por favor, contacta al soporte.');
+      })
+    );
+  }
+  
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem(this.tokenKey); // Eliminar el token
+    localStorage.removeItem(this.tokenKey);
   }
 
   // Verificar si el usuario está autenticado (si existe un token)
@@ -56,26 +75,5 @@ export class AuthService {
   // Obtener el token almacenado
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
-  }
-
-  // Método para obtener datos del usuario (requiere autenticación)
-  getUserData(): Observable<any> {
-    const token = this.getToken(); // Obtener el token
-    if (!token) {
-      return throwError('No token found');
-    }
-
-    // Configurar las cabeceras con el token
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`, // Incluir el token en la cabecera
-    });
-
-    // Realizar la petición al endpoint protegido con el token en la cabecera
-    return this.http.get(`${this.apiUrl}/user/profile`, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error fetching user data', error);
-        return throwError(error);
-      })
-    );
   }
 }
