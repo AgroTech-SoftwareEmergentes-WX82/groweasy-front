@@ -12,7 +12,7 @@ import { NavbarComponent } from "../Shared/navbar/navbar.component"; // Asegúra
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
-  styleUrls: ['./devices.component.css'],
+  styleUrls: ['./devices.component.scss'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatOptionModule, MatSelectModule, NavbarComponent],
 })

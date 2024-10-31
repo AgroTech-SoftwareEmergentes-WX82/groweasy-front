@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrl: './home.component.scss',
   imports: [NavbarComponent, LuminosityDashboardComponent, CommonModule, HumidityDashboardComponent, TemperatureDashboardComponent, AlertsComponent] // Asegúrate de importar el NavbarComponent
 
 })

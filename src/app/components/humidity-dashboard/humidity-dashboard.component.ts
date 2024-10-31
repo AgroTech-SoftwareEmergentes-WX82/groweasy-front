@@ -6,7 +6,7 @@ import { HumidityService } from '../../core/services/humidity.service'; // Aseg√
 @Component({
   selector: 'app-humidity-dashboard',
   templateUrl: './humidity-dashboard.component.html',
-  styleUrls: ['./humidity-dashboard.component.css'],
+  styleUrls: ['./humidity-dashboard.component.scss'],
   standalone: true, // Hacer el componente standalone
   imports: [CommonModule, DatePipe], // Importar CommonModule y DatePipe
 })

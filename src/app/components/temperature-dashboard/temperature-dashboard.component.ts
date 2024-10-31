@@ -8,7 +8,7 @@ import { TemperatureService } from '../../core/services/temperature.service'; //
   standalone: true,  // Indicamos que es un componente standalone
   imports: [CommonModule],  // Importamos CommonModule para utilizar directivas como *ngIf, *ngFor, etc.
   templateUrl: './temperature-dashboard.component.html',
-  styleUrls: ['./temperature-dashboard.component.css'],
+  styleUrls: ['./temperature-dashboard.component.scss'],
 })
 export class TemperatureDashboardComponent implements OnInit {
   temperatureData: { temperature: number; timestamp: string } | null = null; // Almacena los datos

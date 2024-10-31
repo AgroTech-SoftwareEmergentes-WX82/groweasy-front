@@ -6,7 +6,7 @@ import { LuminosityService } from '../../core/services/luminosity.service'; // I
 @Component({
   selector: 'app-luminosity-dashboard',
   templateUrl: './luminosity-dashboard.component.html',
-  styleUrls: ['./luminosity-dashboard.component.css'],
+  styleUrls: ['./luminosity-dashboard.component.scss'],
   standalone: true, // Hacer el componente standalone
   imports: [CommonModule, DatePipe], // Importar CommonModule y DatePipe
 })
