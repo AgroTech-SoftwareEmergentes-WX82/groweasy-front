@@ -1,23 +1,8 @@
-<div class="luminosity-dashboard">
-  <h2>Luminosidad Actual</h2>
-
-  <!-- Mostrar los datos de la luminosidad -->
-  <div class="luminosity-container">
-    <div class="luminosity-value">{{ luminosityData?.luminosity }}%</div>
-
-  </div>
-
-
-
- 
-
-  <!-- Mostrar la fecha y hora de la última actualización -->
-  <div *ngIf="luminosityData">
-    <p>Última actualización: {{ luminosityData.timestamp | date: 'short' }}</p>
-  </div>
-
-  <!-- Mostrar mensaje de carga si no hay datos -->
-  <div *ngIf="!luminosityData">
-    <p>Cargando datos de luminosidad...</p>
-  </div>
+<div class="luminosity-device">
+  <h3>{{ device.name }}</h3>
+  <p>Value: {{ device.values?.value }}</p>
+  <p>Unit: {{ device.values?.unitOfMeasure }}</p>
+  <!-- Foco de luminosidad -->
+  <div class="light-bulb" [ngStyle]="{ opacity: calculateOpacity(device.values?.value) }"></div>
+  <p>Created At: {{ device.values?.createdAt }}</p>
 </div>

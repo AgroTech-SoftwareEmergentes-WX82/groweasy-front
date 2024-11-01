@@ -7,6 +7,7 @@ import { TemperatureDashboardComponent } from "../temperature-dashboard/temperat
 import { AlertsComponent } from "../alerts/alerts.component";
 import { DevicesService } from '../../core/services/devices.service';
 import { CommonModule } from '@angular/common';
+import { ValuesService } from '../../core/services/values.service';
 
 @Component({
   selector: 'app-home',
@@ -21,32 +22,43 @@ export class HomeComponent implements OnInit {
   luminosityDevices: any[] = [];
   temperatureDevices: any[] = [];
 
-  constructor(private devicesService: DevicesService) {}
+  constructor(private devicesService: DevicesService, private valuesService: ValuesService) {}
 
   ngOnInit(): void {
     this.loadDeviceData();
   }
-
-  // Cargar datos de los dispositivos según su tipo
-  loadDeviceData() {
+ loadDeviceData() {
     this.devicesService.getDevices().subscribe(
       (devices) => {
+        console.log('Dispositivos recibidos:', devices);
+
+        // Para cada dispositivo, obtenemos los valores y los agregamos
         devices.forEach(device => {
-          // Convertimos a minúsculas para hacer la comparación insensible a mayúsculas
-          const deviceType = device.typeDevice.toLowerCase();
-          switch (deviceType) {
-            case 'humedad':
-              this.humidityDevices.push(device);
-              break;
-            case 'luminosidad':
-              this.luminosityDevices.push(device);
-              break;
-            case 'temperatura':
-              this.temperatureDevices.push(device);
-              break;
-            default:
-              console.warn('Tipo de dispositivo desconocido:', device.typeDevice);
-          }
+          this.valuesService.getDeviceValues(device.id).subscribe(
+            (values) => {
+              device.values = values;
+              console.log(`Valores obtenidos para el dispositivo ${device.id}:`, values);
+
+              // Clasificamos el dispositivo en el array correspondiente
+              const deviceType = device.typeDevice.toLowerCase();
+              switch (deviceType) {
+                case 'humedad':
+                  this.humidityDevices.push(device);
+                  break;
+                case 'luminosidad':
+                  this.luminosityDevices.push(device);
+                  break;
+                case 'temperatura':
+                  this.temperatureDevices.push(device);
+                  break;
+                default:
+                  console.warn('Tipo de dispositivo desconocido:', device.typeDevice);
+              }
+            },
+            (error) => {
+              console.error(`Error al obtener los valores del dispositivo ${device.id}`, error);
+            }
+          );
         });
       },
       (error) => {
@@ -54,5 +66,4 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  
 }

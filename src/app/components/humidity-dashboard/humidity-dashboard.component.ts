@@ -1,33 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CommonModule, DatePipe } from '@angular/common';
-import { HumidityService } from '../../core/services/humidity.service'; // Asegúrate de importar tu servicio
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-humidity-dashboard',
+  selector: 'app-humidity-device',
+  standalone: true,
   templateUrl: './humidity-dashboard.component.html',
-  styleUrls: ['./humidity-dashboard.component.css'],
-  standalone: true, // Hacer el componente standalone
-  imports: [CommonModule, DatePipe], // Importar CommonModule y DatePipe
+  styleUrls: ['./humidity-dashboard.component.css']
 })
-export class HumidityDashboardComponent implements OnInit {
-  humidityData: { humidity: number; timestamp: string } | null = null;
+export class HumidityDashboardComponent {
+  @Input() device!: { name: string; values: { value: number; unitOfMeasure: string; createdAt: string } };
 
-  constructor(private humidityService: HumidityService) {} // Inyectar el servicio
+  // Esta función calcula la altura del agua en porcentaje
+  calculateWaterHeight(value: number): number {
+    const maxHumidity = 100; // Asumimos que el 100% es el nivel máximo de humedad
+    const minHumidity = 0;    // Mínimo de humedad
 
-  ngOnInit(): void {
-    this.getHumidityData();
-  }
+    // Aseguramos que los valores estén dentro del rango [0, 100]
+    if (value < minHumidity) return 0;
+    if (value > maxHumidity) return maxHumidity;
 
-  // Método para obtener los datos de humedad del backend
-  getHumidityData(): void {
-    this.humidityService.getHumidity().subscribe(
-      (data) => {
-        this.humidityData = data;
-      },
-      (error) => {
-        console.error('Error fetching humidity data:', error);
-      }
-    );
+    return (value / maxHumidity) * 100; // Retorna el porcentaje de altura
   }
 }

@@ -1,76 +1,29 @@
-.humidity-dashboard {
-  text-align: center;
-  font-family: Arial, sans-serif;
+.humidity-device {
+  border: 1px solid #4caf50;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #e8f5e9;
+  text-align: center; /* Centrar el contenido */
 }
 
-.humidity-container {
-  margin: 20px auto;
-  width: 200px;
-  height: 200px;
+.water-circle {
+  width: 100px;
+  height: 100px;
   position: relative;
 }
 
-.humidity-circle {
+svg {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background-color: lightgray;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.humidity-fill {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background-color: #00bfff;
-  border-radius: 50%;
-  animation: wave 4s infinite ease-in-out; /* Animación de onda */
+.circle-bg {
+  fill: #e0e0e0; /* Fondo del círculo */
 }
 
-.humidity-fill::before,
-.humidity-fill::after {
-  content: '';
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background-color: #00bfff;
-  border-radius: 40%;
-}
-
-.humidity-fill::before {
-  left: -50%;
-  top: 0;
-  animation: wave 4s infinite ease-in-out;
-}
-
-.humidity-fill::after {
-  left: -50%;
-  top: 0;
-  animation: wave 4s infinite ease-in-out reverse;
-}
-
-@keyframes wave {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(-25%) translateY(-5%);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-.humidity-text {
-  position: relative;
-  z-index: 1;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
+.circle-water {
+  fill: #4caf50; /* Color del agua */
+  transform-origin: center;
+  transition: transform 0.5s ease;
 }

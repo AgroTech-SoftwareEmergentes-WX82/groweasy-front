@@ -1,64 +1,38 @@
-.temperature-dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: Arial, sans-serif;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-.thermometer-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 80px;
-  height: 250px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  border: 2px solid #ccc;
-  overflow: hidden;
+.temperature-device {
+  border: 1px solid #f44336;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #ffebee;
+  text-align: center; /* Centramos el contenido */
 }
 
 .thermometer {
   position: relative;
-  width: 50%;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 10px;
-  border: 2px solid #999;
+  width: 50px; /* Ancho del termómetro */
+  height: 200px; /* Altura total del termómetro */
+  border: 2px solid #f44336; /* Borde del termómetro */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: #fff; /* Fondo blanco del termómetro */
+  margin: 10px auto; /* Centramos horizontalmente */
 }
 
-.thermometer-fill {
+.thermometer-bulb {
+  width: 60px; /* Ancho de la parte bulbosa del termómetro */
+  height: 30px; /* Altura de la parte bulbosa */
+  background-color: #f44336; /* Color del bulbo */
+  border-radius: 50%; /* Bordes redondeados */
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: #ff6961; /* Color base del termómetro (rojo cálido) */
-  transition: height 0.5s ease, background-color 0.5s ease;
+  bottom: -15px; /* Posicionamos el bulbo por debajo del termómetro */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* Cambiar color del termómetro en función de la temperatura */
-.thermometer-fill[style*="height: 0%"] {
-  background-color: #00bfff; /* Frío */
-}
-.thermometer-fill[style*="height: 50%"] {
-  background-color: #ffcc00; /* Templado */
-}
-.thermometer-fill[style*="height: 80%"] {
-  background-color: #ff4500; /* Caliente */
-}
-
-.temperature-text {
-  margin-left: 15px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-p {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #777;
+.thermometer-bar {
+  position: absolute;
+  bottom: 0; /* Posicionamos la barra al fondo del termómetro */
+  left: 0;
+  width: 100%; /* Barra ocupa todo el ancho del termómetro */
+  background-color: #f44336; /* Color de la barra */
+  transition: height 0.5s ease; /* Suavizamos la animación del cambio de altura */
 }

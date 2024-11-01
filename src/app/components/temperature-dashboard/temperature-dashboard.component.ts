@@ -1,32 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common'; // Necesario en standalone components
-import { TemperatureService } from '../../core/services/temperature.service'; // Importar el servicio de luminosidad
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-temperature-dashboard',
-  standalone: true,  // Indicamos que es un componente standalone
-  imports: [CommonModule],  // Importamos CommonModule para utilizar directivas como *ngIf, *ngFor, etc.
+  selector: 'app-temperature-device',
+  standalone: true,
   templateUrl: './temperature-dashboard.component.html',
-  styleUrls: ['./temperature-dashboard.component.css'],
+  styleUrls: ['./temperature-dashboard.component.css']
 })
-export class TemperatureDashboardComponent implements OnInit {
-  temperatureData: { temperature: number; timestamp: string } | null = null; // Almacena los datos
+export class TemperatureDashboardComponent {
+  @Input() device!: { name: string; values: { value: number; unitOfMeasure: string; createdAt: string } };
 
-  constructor(private temperatureService: TemperatureService) {} // Inyectar el servicio
+  // Esta función calcula la altura del termómetro en porcentaje
+  calculateThermometerHeight(value: number): number {
+    // Aquí se asume que la temperatura máxima es 100 grados
+    const maxTemperature = 100;
+    const minTemperature = 0;
 
-  ngOnInit(): void {
-    this.getTemperatureData();
-  }
+    // Aseguramos que los valores estén dentro del rango [0, 100]
+    if (value < minTemperature) return 0;
+    if (value > maxTemperature) return 100;
 
-  getTemperatureData(): void {
-    this.temperatureService.getTemperature().subscribe(
-      (data) => {
-        this.temperatureData = data;
-      },
-      (error) => {
-        console.error('Error fetching temperature data:', error);
-      }
-    );
+    return (value / maxTemperature) * 100; // Retorna el porcentaje de altura
   }
 }

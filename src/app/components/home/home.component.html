@@ -1,27 +1,25 @@
-<app-navbar></app-navbar> 
+<app-navbar></app-navbar>
 <div class="home-container">
-  
+
   <div *ngIf="humidityDevices.length">
-    <h2>Dispositivos de Humedad</h2>
+    <h4>Humedad</h4>
     <div *ngFor="let device of humidityDevices">
-      <!-- Dashboard de Humedad -->
-      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+      <app-humidity-device [device]="device"></app-humidity-device>
     </div>
   </div>
-  
+
   <div *ngIf="luminosityDevices.length">
-    <h2>Dispositivos de Luminosidad</h2>
+    <h4>Luminosidad</h4>
     <div *ngFor="let device of luminosityDevices">
-      <!-- Dashboard de Luminosidad -->
-      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+      <app-luminosity-device [device]="device"></app-luminosity-device>
     </div>
   </div>
-  
+
   <div *ngIf="temperatureDevices.length">
-    <h2>Dispositivos de Temperatura</h2>
+    <h4>Temperatura</h4>
     <div *ngFor="let device of temperatureDevices">
-      <!-- Dashboard de Temperatura -->
-      {{ device.name }} - Value: {{ device.values?.value }} - Unit: {{ device.values?.unitOfMeasure }} - Created At: {{ device.values?.createdAt }}
+      <app-temperature-device [device]="device"></app-temperature-device>
     </div>
   </div>
+
 </div>
