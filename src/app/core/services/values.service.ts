@@ -20,7 +20,7 @@ export class ValuesService {
   // Método para obtener los valores específicos de un dispositivo por ID
   getDeviceValues(deviceId: number): Observable<any> {
     const headers = this.getHeaders();
-    const url = `${this.apiUrl}/device/${deviceId}`;
+    const url = `${this.apiUrl}/lastValueSensor/${deviceId}`;
     return this.http.get<any>(url, { headers }).pipe(
       catchError((error) => {
         console.error(`Error al obtener valores del dispositivo ${deviceId}`, error);
