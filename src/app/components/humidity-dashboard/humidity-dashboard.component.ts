@@ -1,23 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-humidity-device',
   standalone: true,
   templateUrl: './humidity-dashboard.component.html',
-  styleUrls: ['./humidity-dashboard.component.css']
+  styleUrls: ['./humidity-dashboard.component.css'],
+  imports: [CommonModule]
 })
-export class HumidityDashboardComponent {
-  @Input() device!: { name: string; values: { value: number; unitOfMeasure: string; createdAt: string } };
+export class HumidityDashboardComponent implements OnInit {
+  @Input() device: any;
+  humidityPercentage: number = 0;
 
-  // Esta función calcula la altura del agua en porcentaje
-  calculateWaterHeight(value: number): number {
-    const maxHumidity = 100; // Asumimos que el 100% es el nivel máximo de humedad
-    const minHumidity = 0;    // Mínimo de humedad
-
-    // Aseguramos que los valores estén dentro del rango [0, 100]
-    if (value < minHumidity) return 0;
-    if (value > maxHumidity) return maxHumidity;
-
-    return (value / maxHumidity) * 100; // Retorna el porcentaje de altura
+  ngOnInit() {
+    this.humidityPercentage = this.device.values.value; // Obtener el valor de humedad
   }
 }

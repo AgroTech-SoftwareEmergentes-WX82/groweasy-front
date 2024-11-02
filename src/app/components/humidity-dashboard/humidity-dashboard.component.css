@@ -4,26 +4,28 @@
   margin-bottom: 10px;
   border-radius: 5px;
   background-color: #e8f5e9;
-  text-align: center; /* Centrar el contenido */
+  text-align: center;
 }
 
-.water-circle {
-  width: 100px;
-  height: 100px;
+.circular-chart {
+  position: relative;
+  width: 100px; /* Ancho del gráfico */
+  height: 100px; /* Alto del gráfico */
+  margin: 20px auto; /* Centrar el gráfico */
+}
+
+.circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
 
-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.circle-bg {
-  fill: #e0e0e0; /* Fondo del círculo */
-}
-
-.circle-water {
-  fill: #4caf50; /* Color del agua */
-  transform-origin: center;
-  transition: transform 0.5s ease;
+.percentage {
+  position: absolute;
+  font-size: 1.5rem; /* Tamaño de la fuente */
+  color: #4caf50; /* Color del texto */
 }
