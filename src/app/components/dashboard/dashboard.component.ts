@@ -3,7 +3,7 @@ import {GetDevice} from '../../core/model/device.model';
 import {DevicesService} from '../../core/services/devices.service';
 import {ValueSensorService} from '../../core/services/value-sensor.service';
 import {ValueSensor} from '../../core/model/valueSensor.model';
-import {forkJoin, Observable, of} from 'rxjs';
+import {forkJoin, of} from 'rxjs';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {catchError} from 'rxjs/operators';
 import {SensorComponent} from '../sensor/sensor.component';
