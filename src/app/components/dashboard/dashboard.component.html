@@ -1,0 +1,18 @@
+<div *ngIf="loading">
+  <p>Loading sensor values...</p>
+</div>
+
+<div *ngIf="!loading && sensorValues.length === 0">
+  <p>No sensor values found.</p>
+</div>
+
+<div *ngFor="let value of sensorValues">
+  <p>Value: {{ value.value }}</p>
+</div>
+
+
+<div class="p-grid p-justify-center p-align-center">
+  <div *ngFor="let sensor of sensorValues" class="p-col-12 p-md-4 p-lg-3">
+    <app-sensor [sensorData]="sensor"></app-sensor>
+  </div>
+</div>

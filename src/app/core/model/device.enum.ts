@@ -1,0 +1,5 @@
+export enum DeviceSensor {
+  TEMPERATURE = 'TEMPERATURA',
+  HUMIDITY = 'HUMEDAD',
+  LUMINOSITY = 'LUMINOSIDAD'
+}

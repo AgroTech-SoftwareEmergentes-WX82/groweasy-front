@@ -1,56 +1,121 @@
 <app-navbar></app-navbar>
-<div class="devices-container">
-  <h2>Dispositivos</h2>
-  
-  <button (click)="openModal()">Agregar Dispositivo</button>
-  
-  <!-- Modal de agregar dispositivo -->
-  <div *ngIf="showModal" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <h3>Agregar Dispositivo</h3>
+<div class="device-container">
+  <!-- Botón de agregar dispositivo -->
+  <button
+    pButton
+    type="button"
+    class="add-device-btn"
+    (click)="openModal()">
+    <fa-icon icon="plus-circle"></fa-icon>
+  </button>
 
-      <form [formGroup]="deviceForm" (ngSubmit)="submit()">
-        <div>
-          <label for="deviceName">Nombre del Dispositivo:</label>
-          <input id="deviceName" formControlName="deviceName" type="text" />
+  <!-- Modal para agregar dispositivo -->
+  <p-dialog
+    header="Agregar Dispositivo"
+    [(visible)]="showModal"
+    [modal]="true"
+    [closable]="false"
+    [style]="{width: '30vw'}"
+    class="modern-dialog"
+  >
+    <form [formGroup]="deviceForm" (ngSubmit)="submit()">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="deviceName">Nombre</label>
+          <input id="deviceName" type="text" pInputText formControlName="deviceName" class="full-rounded" />
         </div>
-        
-        <div>
-          <label for="deviceType">Tipo de Dispositivo:</label>
-          <mat-select formControlName="deviceType">
-            <mat-option value="humedad">Humedad</mat-option>
-            <mat-option value="luminosidad">Luminosidad</mat-option>
-            <mat-option value="temperatura">Temperatura</mat-option>
-          </mat-select>
-        </div>
-        
-        <div>
-          <label for="topicId">Topic ID:</label>
-          <input id="topicId" formControlName="topicId" type="text" />
-        </div>
-        
-        <button type="button" (click)="closeModal()">Cancelar</button>
-        <button type="submit">Agregar</button>
-      </form>
-    </div>
-  </div>
 
-  <!-- Mostrar la lista de dispositivos -->
-  <div class="devices-list">
-    <ng-container *ngIf="devices.length > 0; else noDevices">
-      <div *ngFor="let device of devices" class="device-card">
-        <p><strong>ID:</strong> {{ device.id }}</p>
-        <p><strong>Nombre:</strong> {{ device.name }}</p>
-        <p><strong>Tipo:</strong> {{ device.typeDevice }}</p>
-        <p><strong>Topic:</strong> {{ device.topic }}</p>
-        <button (click)="confirmDelete(device.id)">Borrar</button>
+        <div class="p-field">
+          <label for="deviceType">Tipo de Dispositivo</label>
+          <p-dropdown
+            id="deviceType"
+            [options]="deviceTypeOptions"
+            formControlName="deviceType"
+            appendTo="body"
+            class="full-rounded"
+          ></p-dropdown>
+        </div>
+
+        <div class="p-field">
+          <label for="topicId">Topic</label>
+          <input id="topicId" type="text" pInputText formControlName="topicId" class="full-rounded" />
+        </div>
       </div>
-    </ng-container>
 
-    <!-- Mensaje cuando no hay dispositivos -->
-    <ng-template #noDevices>
-      <p>No hay ningún dispositivo.</p>
+      <p-footer>
+        <div class="button-group">
+          <button
+            pButton
+            label="Guardar"
+            icon="pi pi-check"
+            type="submit"
+            class="p-button-success"
+            [disabled]="deviceForm.invalid"
+          ></button>
+          <button
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="closeModal()"
+          ></button>
+        </div>
+      </p-footer>
+    </form>
+  </p-dialog>
+
+  <p-toast></p-toast>
+  <p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+      <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+        <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
+          <fa-icon class="text-5xl" icon="question"></fa-icon>
+        </div>
+        <span class="font-bold text-2xl block mb-2 mt-4">
+                {{ message.header }}
+            </span>
+        <p class="mb-0">{{ message.message }}</p>
+        <div class="flex align-items-center gap-2 mt-4">
+          <button
+            pButton
+            label="Save"
+            (click)="cd.accept()"
+            class="w-8rem">
+          </button>
+          <button
+            pButton
+            label="Cancel"
+            (click)="cd.reject()"
+            class="p-button-outlined w-8rem ">
+          </button>
+        </div>
+      </div>
     </ng-template>
-  </div>
+  </p-confirmDialog>
+
+  <!-- Tabla de dispositivos -->
+  <p-table [value]="devices">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id Dispositivo</th>
+        <th>Nombre</th>
+        <th>Tipo de Dispositivo</th>
+        <th>Topic</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-device>
+      <tr>
+        <td>{{device.id}}</td>
+        <td>{{ device.name }}</td>
+        <td>{{ device.typeDevice }}</td>
+        <td>{{ device.topic }}</td>
+        <td>
+          <button pButton class="p-button-rounded p-button-danger p-button-text" (click)="confirmDelete(device.id)">
+            <fa-icon class="mb-1" [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
