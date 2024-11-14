@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 
-import { TemperatureDashboardComponent } from "../temperature-dashboard/temperature-dashboard.component";
 import { AlertsComponent } from "../alerts/alerts.component";
-import { DevicesService } from '../../core/services/devices.service';
 import { CommonModule } from '@angular/common';
 import {NavbarComponent} from '../../shared/navbar/navbar.component';
 import {DashboardComponent} from '../dashboard/dashboard.component';
@@ -15,7 +13,6 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
   imports: [
     NavbarComponent,
     CommonModule,
-    TemperatureDashboardComponent,
     AlertsComponent,
     DashboardComponent
   ]
