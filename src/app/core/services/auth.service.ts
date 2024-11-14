@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
 
 export interface Credential {
   email: string;
@@ -12,7 +13,7 @@ export interface Credential {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1';
+  private apiUrl = environment.API_URL;
   private tokenKey = 'authToken';
 
   constructor(private http: HttpClient) {}
@@ -61,7 +62,7 @@ export class AuthService {
       })
     );
   }
-  
+
   // Método para cerrar sesión
   logout(): void {
     localStorage.removeItem(this.tokenKey);

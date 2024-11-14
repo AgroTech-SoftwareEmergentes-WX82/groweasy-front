@@ -1,124 +1,132 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 import { DevicesService } from '../../core/services/devices.service';
-import { ValuesService } from '../../core/services/values.service'; // Importar ValuesService
-import { NavbarComponent } from "../Shared/navbar/navbar.component"; // Asegúrate de que la ruta sea correcta
+import {NavbarComponent} from '../../shared/navbar/navbar.component';
+import {CreateDevice, GetDevice} from '../../core/model/device.model';
+import {ToastService} from '../../shared/toast/toast.service';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {DeviceSensor} from '../../core/model/device.enum';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
+import {ButtonModule} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import {InputTextModule} from 'primeng/inputtext';
+import {faTrash} from '@fortawesome/free-solid-svg-icons';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToastModule} from 'primeng/toast'; // Importar ValuesService
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
-  styleUrls: ['./devices.component.css'],
+  styleUrls: ['./devices.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatOptionModule, MatSelectModule, NavbarComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NavbarComponent,
+    FontAwesomeModule,
+    DialogModule,
+    DropdownModule,
+    ButtonModule,
+    TableModule,
+    InputTextModule,
+    ConfirmDialogModule,
+    ToastModule
+  ],
+  providers: [MessageService, ConfirmationService]
 })
 export class DevicesComponent implements OnInit {
   deviceForm: FormGroup;
+  devices: GetDevice[] = [];
   showModal: boolean = false;
-  devices: any[] = []; // Para almacenar la lista de dispositivos
 
-  constructor(private fb: FormBuilder, private devicesService: DevicesService, private valuesService: ValuesService) { // Inyectar ValuesService
+  // Services
+  private toastService = inject(ToastService);
+  private deviceService = inject(DevicesService);
+  private confirmationService = inject(ConfirmationService);
+
+
+  constructor(private fb: FormBuilder) {
     this.deviceForm = this.fb.group({
       deviceName: ['', Validators.required],
-      deviceType: ['', Validators.required],
+      deviceType: [null, Validators.required],
       topicId: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.getDevices(); // Obtener la lista de dispositivos al iniciar
+    this.loadDevices();
   }
 
-  // Método para mostrar el modal
   openModal() {
     this.showModal = true;
   }
 
-  // Método para cerrar el modal
   closeModal() {
     this.showModal = false;
-    this.deviceForm.reset(); // Reinicia el formulario
+    this.deviceForm.reset();
   }
 
-  // Método para enviar el formulario
   submit() {
     if (this.deviceForm.valid) {
-      // Mapeo de los datos del formulario a los nombres que espera el backend
-      const deviceData = {
+      const deviceData: CreateDevice = {
         name: this.deviceForm.value.deviceName,
         typeDevice: this.deviceForm.value.deviceType,
-        topic: this.deviceForm.value.topicId
+        topic: this.deviceForm.value.topicId,
       };
 
-      this.devicesService.addDevice(deviceData).subscribe(
-        (response) => {
-          console.log('Dispositivo agregado', response);
-          this.getDevices(); // Actualizar la lista de dispositivos después de agregar uno nuevo
-          this.closeModal(); // Cierra el modal y reinicia el formulario
+      this.deviceService.addDevice(deviceData).subscribe({
+        next: (response) => {
+          this.toastService.sendSuccess('Dispositivo agregado', 'El dispositivo se agregó correctamente');
+          this.loadDevices();
+          this.closeModal();
         },
-        (error) => {
-          console.error('Error al agregar el dispositivo', error);
-        }
-      );
+        error: (error) => {
+          this.toastService.sendError('Error', 'No se pudo agregar el dispositivo');
+        },
+      });
     }
   }
 
-  // Método para obtener los dispositivos
-  getDevices() {
-    this.devicesService.getDevices().subscribe(
-      (response) => {
-        this.devices = response; // Almacena la lista de dispositivos obtenida desde el backend
-
-        // Llama a getDeviceValues para cada dispositivo
-        this.devices.forEach(device => {
-          this.getDeviceValues(device.id); // Llama al método para obtener los valores del dispositivo
-        });
+  private loadDevices(): void {
+    this.deviceService.getDevices().subscribe({
+      next: (data) => {
+        this.devices = data;
       },
-      (error) => {
-        console.error('Error al obtener los dispositivos', error);
-      }
-    );
+      error: (error) => {
+        this.toastService.sendError('Error', 'No se pudieron cargar los dispositivos');
+      },
+    });
   }
 
-  // Método para obtener los valores de un dispositivo específico
-  getDeviceValues(deviceId: number) {
-    this.valuesService.getDeviceValues(deviceId).subscribe(
-      (values) => {
-        // Aquí puedes procesar los valores y asignarlos a tu dispositivo
-        // Por ejemplo, podrías agregar una propiedad a cada dispositivo:
-        const device = this.devices.find(d => d.id === deviceId);
-        if (device) {
-          device.values = values; // Asignar los valores obtenidos al dispositivo
-        }
-      },
-      (error) => {
-        console.error(`Error al obtener valores del dispositivo ${deviceId}`, error);
-      }
-    );
-  }
-
-  // Método para confirmar la eliminación de un dispositivo
   confirmDelete(deviceId: number) {
-    console.log('Intentando eliminar el dispositivo con ID:', deviceId); // Verifica el ID
-    if (confirm("¿Estás seguro de que deseas eliminar este dispositivo?")) {
-      this.deleteDevice(deviceId);
-    }
+    this.confirmationService.confirm({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar este dispositivo?',
+      icon: 'exclamation-triangle',
+      accept: () => {
+        this.deleteDevice(deviceId);
+      }
+    });
   }
 
-  // Método para eliminar un dispositivo
   deleteDevice(deviceId: number) {
-    this.devicesService.deleteDevice(deviceId).subscribe(
-      (response) => {
-        console.log('Dispositivo eliminado', response);
-        this.getDevices(); // Actualizar la lista de dispositivos después de eliminar uno
+    this.deviceService.deleteDevice(deviceId).subscribe({
+      next: (response) => {
+        this.toastService.sendSuccess('Dispositivo eliminado', 'El dispositivo ha sido eliminado correctamente');
+        this.loadDevices();
       },
-      (error) => {
-        console.error('Error al eliminar el dispositivo', error);
-      }
-    );
+      error: (error) => {
+        this.toastService.sendError('Error', 'No se pudo eliminar el dispositivo');
+      },
+    });
   }
+
+  get deviceTypeOptions() {
+    return Object.values(DeviceSensor);
+  }
+
+  protected readonly faTrash = faTrash;
 }

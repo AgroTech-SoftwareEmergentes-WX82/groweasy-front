@@ -1,61 +1,36 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {CreateDevice, GetDevice} from '../model/device.model';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevicesService {
-  private apiUrl = 'https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1/devices'; // Cambia esto a la URL de tu API
-  private tokenKey = 'authToken'; // Clave donde se guarda el token
+  private apiUrl = environment.API_URL;
+  errorHandler = inject(ErrorHandlerService);
 
   constructor(private http: HttpClient) {}
 
-  // Obtener el token desde el almacenamiento local
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  // Método para obtener la lista de dispositivos
-  getDevices(): Observable<any[]> {
-    const headers = this.getHeaders();
-    return this.http.get<any[]>(this.apiUrl, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error al obtener los dispositivos', error);
-        return throwError(error);
-      })
+  getDevices(): Observable<GetDevice[]> {
+    return this.http.get<GetDevice[]>(`${this.apiUrl}/devices`).pipe(
+      catchError((error) => this.errorHandler.handleError(error))
     );
   }
 
-  
-  // Método para agregar un nuevo dispositivo
   addDevice(deviceData: any): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.post(this.apiUrl, deviceData, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error al agregar el dispositivo', error);
-        return throwError(error);
-      })
+    return this.http.post(`${this.apiUrl}/devices`, deviceData).pipe(
+      catchError((error) => this.errorHandler.handleError(error))
     );
   }
 
-  // Método para eliminar un dispositivo
   deleteDevice(deviceId: number): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.delete(`${this.apiUrl}/${deviceId}`, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error al eliminar el dispositivo', error);
-        return throwError(error);
-      })
+    return this.http.delete(`${this.apiUrl}/devices/${deviceId}`).pipe(
+      catchError((error) => this.errorHandler.handleError(error))
     );
   }
 
-  // Método para configurar las cabeceras con el token
-  private getHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  }
-} 
+}

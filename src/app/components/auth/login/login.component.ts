@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import {Button} from 'primeng/button';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, Button, FaIconComponent],
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LogInComponent {
   loginForm: FormGroup;
@@ -38,4 +40,6 @@ export class LogInComponent {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+
+
 }

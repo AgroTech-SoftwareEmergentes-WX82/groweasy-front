@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './alerts.component.html',
-  styleUrls: ['./alerts.component.css'],
+  styleUrls: ['./alerts.component.scss'],
 })
 export class AlertsComponent implements OnInit {
   alerts: any[] = [];

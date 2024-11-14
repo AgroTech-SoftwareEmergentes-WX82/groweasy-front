@@ -1,8 +1,0 @@
-<div class="luminosity-device">
-  <h3>{{ device.name }}</h3>
-  <p>Value: {{ device.values?.value }}</p>
-  <p>Unit: {{ device.values?.unitOfMeasure }}</p>
-  <!-- Foco de luminosidad -->
-  <div class="light-bulb" [ngStyle]="{ opacity: calculateOpacity(device.values?.value) }"></div>
-  <p>Created At: {{ device.values?.createdAt }}</p>
-</div>

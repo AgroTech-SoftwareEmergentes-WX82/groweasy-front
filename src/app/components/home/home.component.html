@@ -1,25 +1,3 @@
 <app-navbar></app-navbar>
-<div class="home-container">
+<app-dashboard></app-dashboard>
 
-  <div *ngIf="humidityDevices.length">
-    <h4>Humedad</h4>
-    <div *ngFor="let device of humidityDevices">
-      <app-humidity-device [device]="device"></app-humidity-device>
-    </div>
-  </div>
-
-  <div *ngIf="luminosityDevices.length">
-    <h4>Luminosidad</h4>
-    <div *ngFor="let device of luminosityDevices">
-      <app-luminosity-device [device]="device"></app-luminosity-device>
-    </div>
-  </div>
-
-  <div *ngIf="temperatureDevices.length">
-    <h4>Temperatura</h4>
-    <div *ngFor="let device of temperatureDevices">
-      <app-temperature-device [device]="device"></app-temperature-device>
-    </div>
-  </div>
-
-</div>
