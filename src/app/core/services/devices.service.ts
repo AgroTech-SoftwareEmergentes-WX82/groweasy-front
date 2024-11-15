@@ -2,9 +2,9 @@ import {inject, Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
 import {CreateDevice, GetDevice} from '../model/device.model';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

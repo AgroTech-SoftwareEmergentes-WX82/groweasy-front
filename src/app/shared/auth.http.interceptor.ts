@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators'
 import {AuthService} from '../core/services/auth.service';
 import {environment} from '../../environments/environment';
 
+
 export function AuthHttpInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authService = inject(AuthService)
   const router = inject(Router)

@@ -1,12 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
-import {GetDevice} from '../../core/model/device.model';
-import {DevicesService} from '../../core/services/devices.service';
-import {ValueSensorService} from '../../core/services/value-sensor.service';
-import {ValueSensor} from '../../core/model/valueSensor.model';
-import {forkJoin, of} from 'rxjs';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
-import {catchError} from 'rxjs/operators';
 import {SensorComponent} from '../sensor/sensor.component';
+import {CardModule} from 'primeng/card';
+import {IotMqttService} from '../../core/services/iot-mqtt.service';
+import {IMqttMessage} from 'ngx-mqtt';
+import {Button} from 'primeng/button';
 
 
 @Component({
@@ -17,60 +15,58 @@ import {SensorComponent} from '../sensor/sensor.component';
     NgForOf,
     DatePipe,
     AsyncPipe,
-    SensorComponent
+    SensorComponent,
+    CardModule,
+    Button
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardComponent implements OnInit {
-  devices: GetDevice[] = [];
-  sensorValues: ValueSensor[] = [];
-  loading: boolean = true; // Loading state
+export class DashboardComponent implements OnInit{
 
-  constructor(
-    private deviceService: DevicesService,
-    private valueSensorService: ValueSensorService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  receivedMessages: string[] = [];
+  connectionStatus = false;
+
+  constructor(private iotMqttService: IotMqttService) {}
 
   ngOnInit(): void {
-    this.loadDevices();
+    this.connect();
   }
 
-  private loadDevices(): void {
-    this.deviceService.getDevices().subscribe({
-      next: (devices) => {
-        this.devices = devices;
-        this.loadValueSensors();
+  connect(): void {
+    this.iotMqttService.connect().subscribe({
+      next: () => {
+        this.connectionStatus = true;
+        console.log('Connected to MQTT Broker');
+        this.subscribeToTopic();
       },
-      error: (err) => {
-        console.error('Error loading devices', err);
-        this.loading = false; // Stop loading on error
-      }
+      error: (error) => console.error('Connection error', error),
     });
   }
 
-  private loadValueSensors(): void {
-    const valueSensorRequests = this.devices.map(device =>
-      this.valueSensorService.getValueSensor(device.id).pipe(
-        catchError(err => {
-          console.error(`Error fetching sensor value for device ${device.id}`, err);
-          return of(null); // Return null on error
-        })
-      )
-    );
+  disconnect(): void {
+    this.iotMqttService.disconnect();
+    this.connectionStatus = false;
+  }
 
-    forkJoin(valueSensorRequests).subscribe({
-      next: (values) => {
-        this.sensorValues = values.filter(value => value !== null);
-        this.loading = false; // Stop loading when done
-        this.changeDetectorRef.detectChanges(); // Trigger change detection if needed
+  subscribeToTopic(): void {
+    this.iotMqttService.subscribe('/ThinkIOT/temp', 1).subscribe({
+      next: (message: IMqttMessage) => {
+        const msg = message.payload.toString();
+        this.receivedMessages.push(msg);
+        console.log(`Received: ${msg}`);
       },
-      error: (err) => {
-        console.error('Error loading sensor values', err);
-        this.loading = false; // Stop loading on error
-      }
+      error: (error) => {
+        console.error('Error in subscription:', error);
+      },
     });
   }
+
+  publishMessage(): void {
+    this.iotMqttService.publish('/ThinkIOT/Subscribe', 'Hello from DashboardComponent Wilfredo', 1);
+  }
+
+
+
 }

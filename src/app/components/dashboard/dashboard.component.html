@@ -1,18 +1,14 @@
-<div *ngIf="loading">
-  <p>Loading sensor values...</p>
-</div>
+<!-- src/app/dashboard/dashboard.component.html -->
+<div class="dashboard">
+  <h1>MQTT Dashboard</h1>
+  <p>Status: {{ connectionStatus ? 'Connected' : 'Disconnected' }}</p>
 
-<div *ngIf="!loading && sensorValues.length === 0">
-  <p>No sensor values found.</p>
-</div>
+  <button (click)="connect()" [disabled]="connectionStatus">Connect</button>
+  <button (click)="disconnect()" [disabled]="!connectionStatus">Disconnect</button>
+  <button (click)="publishMessage()" [disabled]="!connectionStatus">Publish</button>
 
-<div *ngFor="let value of sensorValues">
-  <p>Value: {{ value.value }}</p>
-</div>
-
-
-<div class="p-grid p-justify-center p-align-center">
-  <div *ngFor="let sensor of sensorValues" class="p-col-12 p-md-4 p-lg-3">
-    <app-sensor [sensorData]="sensor"></app-sensor>
-  </div>
+  <h2>Received Messages</h2>
+  <ul>
+    <li *ngFor="let message of receivedMessages">{{ message }}</li>
+  </ul>
 </div>

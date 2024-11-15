@@ -39,7 +39,7 @@
 						"scripts": []
 					},
 					"configurations": {
-						"production": {
+						"prod": {
 							"budgets": [
 								{
 									"type": "initial",
@@ -52,33 +52,39 @@
 									"maximumError": "4kB"
 								}
 							],
-							"outputHashing": "all"
+							"outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
 						},
-						"development": {
+						"dev": {
 							"optimization": false,
 							"extractLicenses": false,
 							"sourceMap": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "with": "src/environments/environment.dev.ts"
                 }
               ]
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": "prod"
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
-						"production": {
-							"buildTarget": "groweasy-front:build:production"
+						"prod": {
+							"buildTarget": "groweasy-front:build:prod"
 						},
-						"development": {
-							"buildTarget": "groweasy-front:build:development"
+						"dev": {
+							"buildTarget": "groweasy-front:build:dev"
 						}
 					},
-					"defaultConfiguration": "development"
+					"defaultConfiguration": "dev"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n"
