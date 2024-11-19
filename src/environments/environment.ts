@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  API_URL: "https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1",
+  production: true,
+  API_URL: 'https://groweasy-back-crecaxa8h3a8cvg8.canadacentral-01.azurewebsites.net/api/v1',
   mqtt: {
     host: '79a52ee9b42246daaa17cd9272cff7af.s1.eu.hivemq.cloud',
     port: 8883,
