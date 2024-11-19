@@ -42,7 +42,7 @@ export class IotMqttService {
         this.client.onConnect.subscribe(() => {
           observer.next();
           observer.complete();
-          console.log('Connection succeeded!');
+          console.log('Connection succeeded! service');
         });
         this.client.onError.subscribe((error: any) => {
           observer.error(error);

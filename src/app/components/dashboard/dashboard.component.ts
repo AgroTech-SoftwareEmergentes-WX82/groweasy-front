@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {SensorComponent} from '../sensor/sensor.component';
 import {CardModule} from 'primeng/card';
@@ -25,7 +25,7 @@ import {Button} from 'primeng/button';
 })
 export class DashboardComponent implements OnInit{
 
-  receivedMessages: string[] = [];
+  receivedMessages = signal<string[]>([]);
   connectionStatus = false;
 
   constructor(private iotMqttService: IotMqttService) {}
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit{
     this.iotMqttService.connect().subscribe({
       next: () => {
         this.connectionStatus = true;
-        console.log('Connected to MQTT Broker');
+        console.log('Connected to MQTT Broker !! siuu');
         this.subscribeToTopic();
       },
       error: (error) => console.error('Connection error', error),
@@ -47,15 +47,16 @@ export class DashboardComponent implements OnInit{
 
   disconnect(): void {
     this.iotMqttService.disconnect();
+   // this.iotMqttService.unsubscribe();
     this.connectionStatus = false;
   }
 
   subscribeToTopic(): void {
-    this.iotMqttService.subscribe('/ThinkIOT/temp', 1).subscribe({
+    this.iotMqttService.subscribe('/ThinkIOT/hum', 0).subscribe({
       next: (message: IMqttMessage) => {
         const msg = message.payload.toString();
-        this.receivedMessages.push(msg);
         console.log(`Received: ${msg}`);
+        this.receivedMessages.update((messages) => [...messages, msg]);
       },
       error: (error) => {
         console.error('Error in subscription:', error);
