@@ -14,13 +14,16 @@ export class NavbarComponent {
     localStorage.removeItem('authToken'); // Eliminar el token de autenticación
     this.router.navigate(['/login']); // Redirigir al login
   }
+  onNavigateStatistics() {
+    this.router.navigate(['/statistics']); 
+  }
   onNavigateNotifications() {
-    this.router.navigate(['/notifaciones']); // Redirigir al login
+    this.router.navigate(['/notifications']); 
   }
   onNavigateDevices() {
-    this.router.navigate(['/devices']); // Redirigir al login
+    this.router.navigate(['/devices']); 
   }
   onNavigateHome() {
-    this.router.navigate(['/home']); // Redirigir al login
+    this.router.navigate(['/home']); 
   }
 }

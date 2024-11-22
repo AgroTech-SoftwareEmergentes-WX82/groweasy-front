@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+<form (ngSubmit)="fetchData()">
+  <div class="form-group">
+    <label for="startDate">Start Date:</label>
+    <input id="startDate" type="datetime-local" [(ngModel)]="startDate" name="startDate"  aria-label="Start Date" />
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">End Date:</label>
+    <input id="endDate" type="datetime-local" [(ngModel)]="endDate" name="endDate"  aria-label="End Date" />
+  </div>
+
+  <div class="form-group">
+    <label for="deviceId">Device ID:</label>
+    <input id="deviceId" type="number" [(ngModel)]="deviceId" name="deviceId" required aria-label="Device ID" />
+  </div>
+
+  <button type="submit" [disabled]="!startDate || !endDate || !deviceId">Fetch Statistics</button>
+
+<!-- Visualización de estadísticas -->
+<p-chart type="line" [data]="data" [options]="options"></p-chart>
+
+</form>

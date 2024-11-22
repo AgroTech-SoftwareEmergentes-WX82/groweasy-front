@@ -1,0 +1,36 @@
+.device-container {
+    padding: 1rem;
+  }
+  
+  .p-field{
+    padding: 0.5rem 2rem;
+  }
+  
+  .full-rounded {
+    border-radius: 50px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+    gap: 1rem;
+  }
+  
+  .add-device-btn {
+    background-color: #388e3c; /* Verde estilo Material 3 */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 24px;
+  }
+  
