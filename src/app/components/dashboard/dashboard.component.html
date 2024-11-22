@@ -35,13 +35,7 @@
         </div>
 
         <div class="message">
-          <h3>Latest Message</h3>
-          <p *ngIf="latestMessages(); else noMessage">
-            {{ latestMessages() }}
-          </p>
-          <ng-template #noMessage>
-            <p>No messages received yet.</p>
-          </ng-template>
+          <h3>Bienvenido a tu dashboard </h3>
 
 
       <div class="grid">
@@ -52,7 +46,7 @@
                 <div>
                   <span class="block text-500 font-medium mb-3">{{ device.name }}</span>
                   <span class="text-900 font-medium text-xl">
-                   {{ latestMessages().get(device.topic) || 'No data yet' }}
+                   {{ latestMessages().get(device.topic) || 'Aun no hay datos' }}
                     @switch (device.typeDevice){
                       @case ("TEMPERATURA") {
                         <app-temperature [temperature]=latestMessages().get(device.topic)></app-temperature>
