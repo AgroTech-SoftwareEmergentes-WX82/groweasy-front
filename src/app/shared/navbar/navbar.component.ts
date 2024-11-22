@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   standalone: true,
+  imports: [
+    ButtonDirective
+  ]
 })
 export class NavbarComponent {
   constructor(private router: Router) {}
@@ -23,4 +27,6 @@ export class NavbarComponent {
   onNavigateHome() {
     this.router.navigate(['/home']); // Redirigir al login
   }
+
+
 }

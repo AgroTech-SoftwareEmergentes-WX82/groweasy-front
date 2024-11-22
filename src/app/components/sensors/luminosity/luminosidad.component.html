@@ -1,0 +1,8 @@
+<div class="p-grid p-justify-center p-align-center card-container">
+  <div class="p-col-12 p-md-6 p-lg-4 card">
+    <div class="led-container">
+      <div class="led" [class.led-on]="luminosity > 500" [class.led-off]="luminosity <= 500"></div>
+      <span class="lux-value">{{ luminosity }} lux</span>
+    </div>
+  </div>
+</div>

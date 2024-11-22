@@ -1,0 +1,14 @@
+<div class="p-grid p-justify-center p-align-center card-container">
+  <div class="p-col-12 p-md-6 p-lg-4 card">
+    <div class="humidity-container">
+      <p-knob
+        [(ngModel)]="humidity"
+        [size]="120"
+        [readonly]="true"
+        valueColor="SlateGray"
+        rangeColor="MediumTurquoise"
+      ></p-knob>
+      <span class="humidity-value">{{ humidity }}%</span>
+    </div>
+  </div>
+</div>

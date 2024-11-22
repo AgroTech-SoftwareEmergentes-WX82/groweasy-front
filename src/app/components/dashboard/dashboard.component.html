@@ -1,14 +1,83 @@
-<!-- src/app/dashboard/dashboard.component.html -->
-<div class="dashboard">
-  <h1>MQTT Dashboard</h1>
-  <p>Status: {{ connectionStatus ? 'Connected' : 'Disconnected' }}</p>
+<div class="layout-wrapper">
+  <div class="layout-main-container">
+    <div class="layout-main">
 
-  <button (click)="connect()" [disabled]="connectionStatus">Connect</button>
-  <button (click)="disconnect()" [disabled]="!connectionStatus">Disconnect</button>
-  <button (click)="publishMessage()" [disabled]="!connectionStatus">Publish</button>
+      <p-card header="MQTT Dashboard" class="ui-card-shadow">
+        <div class="status">
+          <p>Status: <strong>{{ connectionStatus ? 'Connected' : 'Disconnected' }}</strong></p>
+        </div>
 
-  <h2>Received Messages</h2>
-  <ul>
-    <li *ngFor="let message of receivedMessages()">{{ message }}</li>
-  </ul>
+        <div class="actions">
+          <button
+            pButton
+            label="Connect"
+            icon="pi pi-check"
+            class="p-button-success"
+            [disabled]="connectionStatus"
+            (click)="connect()"
+          ></button>
+          <button
+            pButton
+            label="Disconnect"
+            icon="pi pi-times"
+            class="p-button-danger"
+            [disabled]="!connectionStatus"
+            (click)="disconnect()"
+          ></button>
+          <button
+            pButton
+            label="Publish Message"
+            icon="pi pi-send"
+            class="p-button-info"
+            [disabled]="!connectionStatus"
+            (click)="publishMessage()"
+          ></button>
+        </div>
+
+        <div class="message">
+          <h3>Latest Message</h3>
+          <p *ngIf="latestMessages(); else noMessage">
+            {{ latestMessages() }}
+          </p>
+          <ng-template #noMessage>
+            <p>No messages received yet.</p>
+          </ng-template>
+
+
+      <div class="grid">
+        @for (device of devices(); track device.id) {
+          <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+              <div class="flex justify-content-between mb-3">
+                <div>
+                  <span class="block text-500 font-medium mb-3">{{ device.name }}</span>
+                  <span class="text-900 font-medium text-xl">
+                   {{ latestMessages().get(device.topic) || 'No data yet' }}
+                    @switch (device.typeDevice){
+                      @case ("TEMPERATURA") {
+                        <app-temperature [temperature]=latestMessages().get(device.topic)></app-temperature>
+                      }
+                      @case ("HUMEDAD") {
+                        <app-humidity [humidity]=latestMessages().get(device.topic)></app-humidity>
+                      }
+                      @case ("LUMINOSIDAD") {
+                        <app-luminosity [luminosity]=latestMessages().get(device.topic)></app-luminosity>
+                      }
+                      @default {
+                        Default case.
+                      }
+                    }
+                  </span>
+                </div>
+              </div>
+              <span class="text-green-500 font-medium">Topic: </span>
+              <span class="text-500">{{ device.topic }}</span>
+            </div>
+          </div>
+        }
+      </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
 </div>

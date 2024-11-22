@@ -1,0 +1,27 @@
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.humidity-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.humidity-value {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: SlateGray;
+}

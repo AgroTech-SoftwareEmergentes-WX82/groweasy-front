@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SensorComponent } from './sensor.component';
+import { HumidityComponent } from './humidity.component';
 
-describe('SensorComponent', () => {
-  let component: SensorComponent;
-  let fixture: ComponentFixture<SensorComponent>;
+describe('HumidityComponent', () => {
+  let component: HumidityComponent;
+  let fixture: ComponentFixture<HumidityComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SensorComponent]
+      imports: [HumidityComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SensorComponent);
+    fixture = TestBed.createComponent(HumidityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
