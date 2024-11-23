@@ -1,0 +1,130 @@
+<app-navbar></app-navbar>
+<div class="device-container">
+  <!-- Tabla de dispositivos -->
+  <p-table [value]="notifications">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Message</th>
+        <th>Threshold</th>
+        <th>Time</th>
+        <th>Name Device</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-device>
+      <tr>
+        <td>{{ device.id}}</td>
+        <td>{{ device.email }}</td>
+        <td>{{ device.message }}</td>
+        <td>{{ device.threshold }}</td>
+        <td>{{ device.time }}</td>
+        <td>{{ device.nameDevice }}</td>
+        <td>
+          <button pButton class="p-button-rounded p-button-danger p-button-text" (click)="confirmDelete(device.id)">
+            <fa-icon class="mb-1" [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <!-- Botón de agregar dispositivo -->
+  <button
+    pButton
+    type="button"
+    class="add-device-btn"
+    (click)="openModal()">
+    <fa-icon icon="plus-circle"></fa-icon>
+  </button>
+
+    <!-- Modal para agregar dispositivo -->
+  <p-dialog
+    header="Agregar Notificaciones"
+    [(visible)]="showModal"
+    [modal]="true"
+    [closable]="false"
+    [style]="{width: '30vw'}"
+    class="modern-dialog">
+    <form [formGroup]="notificationForm" (ngSubmit)="submit()">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="notificationEmail">Email</label>
+          <input id="notificationEmail" type="text" pInputText formControlName="notificationEmail" class="full-rounded" />
+        </div>
+        
+        <div class="p-field">
+          <label for="notificationMessage">Message</label>
+          <input id="notificationMessage" type="text" pInputText formControlName="notificationMessage" class="full-rounded" />
+        </div>
+        
+        <div class="p-field">
+          <label for="notificationThreshold">Threshold</label>
+          <input id="notificationThreshold" type="text" pInputText formControlName="notificationThreshold" class="full-rounded" />  
+        </div>
+        
+        <div class="p-field">
+          <label for="notificationTime">Time</label>
+          <input id="notificationTime" type="text" pInputText formControlName="notificationTime" class="full-rounded" />
+        </div>
+        
+        <div class="p-field">
+          <label for="idNotification">Id Notification</label>
+          <input id="idNotification" type="text" pInputText formControlName="idNotification" class="full-rounded" />
+        </div>
+
+      </div>
+
+      <p-footer>
+        <div class="button-group">
+          <button
+            pButton
+            label="Guardar"
+            icon="pi pi-check"
+            type="submit"
+            class="p-button-success"
+            [disabled]="notificationForm.invalid"
+          ></button>
+          <button
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="closeModal()"
+          ></button>
+        </div>
+      </p-footer>
+    </form>
+  </p-dialog>
+
+  <p-toast></p-toast>
+  <p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+      <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+        <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
+          <fa-icon class="text-5xl" icon="question"></fa-icon>
+        </div>
+        <span class="font-bold text-2xl block mb-2 mt-4">
+                {{ message.header }}
+            </span>
+        <p class="mb-0">{{ message.message }}</p>
+        <div class="flex align-items-center gap-2 mt-4">
+          <button
+            pButton
+            label="Save"
+            (click)="cd.accept()"
+            class="w-8rem">
+          </button>
+          <button
+            pButton
+            label="Cancel"
+            (click)="cd.reject()"
+            class="p-button-outlined w-8rem ">
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </p-confirmDialog>
+  
+   
+
+</div>
