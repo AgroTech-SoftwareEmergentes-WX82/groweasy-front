@@ -24,6 +24,7 @@ export class NavbarComponent {
   onNavigateNotifications() {
     this.router.navigate(['/notifications']); 
   }
+  
   onNavigateDevices() {
     this.router.navigate(['/devices']); 
   }
