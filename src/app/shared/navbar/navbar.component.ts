@@ -30,4 +30,4 @@ export class NavbarComponent {
   onNavigateHome() {
     this.router.navigate(['/home']); 
   }
-
+}
