@@ -1,20 +1,36 @@
-/* src/app/dashboard/dashboard.component.scss */
-.dashboard {
-  padding: 20px;
-}
 
-button {
-  margin-right: 10px;
-}
 
-ul {
-  list-style: none;
-  padding: 0;
-}
+  .ui-card-shadow {
+    width: 80%;
+    margin-top: 2rem;
+  }
 
-li {
-  background: #f3f3f3;
-  margin-bottom: 5px;
-  padding: 10px;
-  border-radius: 5px;
-}
+  .status {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    button {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .message {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+  }
+
+
+
+

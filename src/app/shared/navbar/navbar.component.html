@@ -1,12 +1,35 @@
-<nav class="navbar">
-  <div class="navbar-left">
-    <button (click)="onNavigateHome()" class="navbar-button">Home</button>
-    <button (click)="onNavigateDevices()" class="navbar-button">Devices</button>
-    <button (click)="onNavigateNotifications()" class="navbar-button">Notificaciones</button>
-    <button (click)="onNavigateStatistics()" class="navbar-button">Estadisticas</button>
+
+<header class="navbar p-shadow-3">
+  <div class="navbar-left p-d-flex p-ai-center">
+    <button
+      (click)="onNavigateHome()"
+      pButton
+      icon="pi pi-home"
+      label="Home"
+      class="p-button-text navbar-button"
+    ></button>
+    <button
+      (click)="onNavigateDevices()"
+      pButton
+      icon="pi pi-desktop"
+      label="Devices"
+      class="p-button-text navbar-button"
+    ></button>
+    <button
+      (click)="onNavigateNotifications()"
+      pButton
+      icon="pi pi-bell"
+      label="Notificaciones"
+      class="p-button-text navbar-button"
+    ></button>
   </div>
 
-  <div class="navbar-right">
-    <button (click)="logout()" class="logout-button">Logout</button>
+  <div class="navbar-right p-d-flex p-ai-center">
+    <button
+      (click)="logout()"
+      pButton
+      icon="pi pi-sign-out"
+      class="p-button-danger logout-button"
+    ></button>
   </div>
-</nav>
+</header>

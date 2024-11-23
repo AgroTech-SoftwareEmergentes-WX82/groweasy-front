@@ -1,42 +1,72 @@
+/* General navbar styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff; /* Color de fondo */
-  padding: 10px 20px; /* Espaciado */
-  color: white; /* Color del texto */
+  padding: 15px 30px;
+  background-color: #007f5f; /* Modern IoT green */
+  border-radius: 8px;
+  color: #ffffff;
+  margin: 10px 20px; /* Margins around the header */
 }
 
-.navbar-left,
+/* Left section of navbar */
+.navbar-left {
+  display: flex;
+  gap: 15px;
+}
+
+/* Right section of navbar */
 .navbar-right {
   display: flex;
-  align-items: center; /* Centra los elementos verticalmente */
+  gap: 15px;
 }
 
+/* Navbar buttons */
 .navbar-button {
-  background: transparent; /* Sin fondo para que se vea el color de la barra */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  padding: 10px 15px; /* Espaciado del botón */
-  font-size: 16px; /* Tamaño de fuente */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  margin-right: 10px; /* Espaciado entre los botones */
-  transition: background-color 0.3s ease; /* Transición suave */
+  font-size: 18px; /* Slightly larger text */
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase; /* Make text all caps */
+  transition: all 0.3s ease;
 }
 
+/* Hover effect for navbar buttons */
 .navbar-button:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Color de fondo al pasar el mouse */
+  color: #ffc107; /* Gold color on hover */
 }
 
+/* Logout button */
 .logout-button {
-  background-color: rgb(72, 136, 255); /* Color de fondo del botón de logout */
-  border: none; /* Sin borde */
-  color: white; /* Color del texto */
-  padding: 10px 15px; /* Espaciado del botón */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  transition: background-color 0.3s ease; /* Transición suave */
+  font-size: 18px; /* Slightly larger text */
+  font-weight: bold;
+  background-color: #e74c3c; /* Red for logout */
+  color: #ffffff;
+  transition: all 0.3s ease;
 }
 
+/* Hover effect for logout button */
 .logout-button:hover {
-  background-color: rgb(0, 19, 126); /* Color de fondo al pasar el mouse */
+  background-color: #d63031;
+}
+
+/* Icons styling */
+.navbar-button .pi,
+.logout-button .pi {
+  font-size: 20px; /* Slightly larger icons */
+  margin-right: 8px;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    justify-content: center;
+  }
 }

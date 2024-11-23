@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {
   IMqttMessage,
@@ -8,6 +8,7 @@ import {
 } from 'ngx-mqtt';
 import { IClientSubscribeOptions } from 'mqtt-browser';
 import {map, Observable, Subscription} from 'rxjs';
+import {ToastService} from '../../shared/toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class IotMqttService {
   };
 
   private client: MqttService;
-  private curSubscription: Subscription | undefined;
+  private _toastService = inject(ToastService);
+  private activeSubscriptions: Map<string, Subscription> = new Map();
 
   constructor(private mqttService: MqttService) {
     this.client = mqttService;
@@ -48,7 +50,7 @@ export class IotMqttService {
           observer.error(error);
           console.error('Connection failed:', error);
         });
-      } catch (error) {
+      } catch (error: any) {
         observer.error(error);
         console.error('Unexpected error during connection:', error);
       }
@@ -56,49 +58,57 @@ export class IotMqttService {
   }
 
   disconnect(): void {
+    this.unsubscribeAll(); // Asegura cancelar todas las suscripciones antes de desconectar
     this.client.disconnect(true);
-    console.log('Successfully disconnected!');
+    this._toastService.sendSuccess('Successfully disconnected!');
   }
 
   subscribe(topic: string, qos: number): Observable<IMqttMessage> {
     return new Observable((observer) => {
-      this.curSubscription = this.client
-        .observe(topic, { qos } as IClientSubscribeOptions)
+      if (this.activeSubscriptions.has(topic)) {
+        this._toastService.sendWarn(`Already subscribed to topic: ${topic}`);
+        return; // Si ya hay una suscripción activa, no se suscribe de nuevo
+      }
+
+      const subscription = this.client.observe(topic, { qos } as IClientSubscribeOptions)
         .subscribe({
           next: (message: IMqttMessage) => {
             observer.next(message); // Envía el mensaje al observable
           },
           error: (error) => {
-            console.error('Error during subscription:', error);
+            this._toastService.sendError(`Error during subscription to topic "${topic}":`, error);
             observer.error(error);
           },
         });
+
+      this.activeSubscriptions.set(topic, subscription); // Guarda la suscripción activa
+      this._toastService.sendInfo(`Subscribed to topic: ${topic}`);
     });
   }
 
-  unsubscribe(): void {
-    this.curSubscription?.unsubscribe();
-    console.log('Unsubscribed successfully');
+  unsubscribe(topic: string): void {
+    const subscription = this.activeSubscriptions.get(topic);
+    if (subscription) {
+      subscription.unsubscribe();
+      this.activeSubscriptions.delete(topic); // Elimina la referencia
+      this._toastService.sendInfo(`Unsubscribed from topic: ${topic}`);
+    } else {
+      this._toastService.sendWarn(`No active subscription found for topic: ${topic}`);
+    }
+  }
+
+  unsubscribeAll(): void {
+    this.activeSubscriptions.forEach((subscription, topic) => {
+      subscription.unsubscribe();
+      console.log(`Unsubscribed from topic: ${topic}`);
+    });
+    this.activeSubscriptions.clear(); // Limpia todas las referencias
+    console.log('Unsubscribed from all topics');
   }
 
   publish(topic: string, payload: string, qos: number): void {
     this.client.unsafePublish(topic, payload, { qos } as IPublishOptions);
-    console.log('Message published successfully');
+    console.log(`Message published to topic "${topic}" with payload: ${payload}`);
   }
-
-  /*onMessage(): Observable<IMqttMessage> {
-    return this.client.onMessage.pipe(
-      map((packet: any) => {
-        const mqttMessage!: IMqttMessage = {
-          topic: packet.topic,
-          payload: packet.payload,
-          qos: packet.qos,
-          retain: packet.retain,
-          dup: packet.dup
-        };
-        return mqttMessage;
-      })
-    );
-  }*/
 
 }
